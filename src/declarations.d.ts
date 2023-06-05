@@ -1,2 +1,2 @@
 declare module '*.scss';
-declare var Intercom: Function;
+declare var appAPI: any;
