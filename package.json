@@ -1,0 +1,87 @@
+{
+  "name": "sudar-automation",
+  "version": "1.0.0",
+  "private": true,
+  "homepage": ".",
+  "main": "build/electron/main.js",
+  "author": "Dario Dumlijan",
+  "description": "",
+  "build": {
+    "extends": null,
+    "files": [
+      "build/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps",
+    "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
+    "electron:build": "yarn build && tsc -p electron && electron-builder",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test-coverage": "react-scripts test --watchAll=false --coverage",
+    "types": "tsc",
+    "lint": "eslint --ignore-path .eslintignore ./src --ext .jsx,.js,.tsx,.ts"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/electron-devtools-installer": "^2.2.2",
+    "@types/jest": "^27.0.1",
+    "@types/lodash": "^4.14.185",
+    "@types/node": "^16.7.13",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-is-dev": "^2.0.0",
+    "electron-reload": "^2.0.0-alpha.1",
+    "i18next": "^21.9.0",
+    "lodash": "^4.17.21",
+    "material-icons": "^1.11.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^11.18.3",
+    "react-router-dom": "^6.4.1",
+    "react-scripts": "5.0.1",
+    "sass": "^1.55.0",
+    "typescript": "^4.7.4",
+    "web-vitals": "^2.1.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "concurrently": "^8.1.0",
+    "cross-env": "^7.0.3",
+    "electron": "^25.0.1",
+    "electron-builder": "^23.6.0",
+    "eslint": "^8.21.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "wait-on": "^7.0.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "node": "16.10.x"
+  }
+}

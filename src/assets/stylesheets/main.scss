@@ -1,0 +1,14 @@
+@import "./colors";
+
+html {
+  color: $black;
+  height: 100%;
+  width: 100%;
+
+  body {
+    font-family: "Sora", Helvetica, sans-serif;
+    font-weight: 400;
+    height: 100%;
+    width: 100%;
+  }
+}
