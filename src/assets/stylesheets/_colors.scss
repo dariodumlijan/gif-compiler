@@ -1,7 +1,15 @@
+$bgPrimary: #66a6ff;
+$bgSecondary: #89f7fe;
 $black: #000;
+$primary: #0496ff;
+$secondary: #067fd7;
 $white: #fff;
 
 :export {
+  bgPrimary: $bgPrimary;
+  bgSecondary: $bgSecondary;
   black: $black;
+  primary: $primary;
+  secondary: $secondary;
   white: $white;
 }

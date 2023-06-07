@@ -27,22 +27,23 @@ function createWindow() {
       return filePaths[0];
     }
   });
-  ipcMain.on('run-script', (event, input, output, filename, duration, maxSize) => {
+  ipcMain.on('script-run', (event, input, output, filename, duration, maxSize) => {
     let rubyScriptPath = path.join(__dirname, 'scripts', 'generate.py');
     if (isDev) {
       rubyScriptPath = 'scripts/generate.py';
     }
 
-    const child = exec(`python3 ${rubyScriptPath} ${input} ${output} ${filename} ${duration} ${maxSize}`, (error, stdout, stderr) => {
+    const child = exec(`python3 ${rubyScriptPath} ${input} ${output} '${filename}' ${duration} ${maxSize}`, (error, stdout, stderr) => {
       if (error) {
-        console.error(`Error executing script: ${error.message}`);
-        event.reply('script-execution-failed');
+        event.sender.send('script-message', `Error: ${error.message}`);
 
         return;
       }
-      console.log(`Script output: ${stdout}`);
-      if (stderr) console.error(`Script error: ${stderr}`);
-      event.reply('script-execution-completed');
+
+      event.sender.send('script-message', stdout);
+      if (stderr) {
+        event.sender.send('script-message', `Error: ${stderr}`);
+      }
     });
 
     child.on('exit', (code) => {
