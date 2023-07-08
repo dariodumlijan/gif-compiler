@@ -1,4 +1,4 @@
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 import * as path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
@@ -23,30 +23,64 @@ function createWindow() {
     const { canceled, filePaths } = await dialog.showOpenDialog(win as BrowserWindow, {
       properties: ['openDirectory'],
     });
-    if (!canceled) {
-      return filePaths[0];
-    }
+    if (!canceled) return filePaths[0];
   });
-  ipcMain.on('script-run', (event, input, output, filename, duration, maxSize) => {
-    let rubyScriptPath = path.join(__dirname, 'scripts', 'generate.py');
-    if (isDev) {
-      rubyScriptPath = 'scripts/generate.py';
-    }
 
-    const child = exec(`python3 ${rubyScriptPath} ${input} ${output} '${filename}' ${duration} ${maxSize}`, (error, stdout, stderr) => {
-      if (error) {
-        event.sender.send('script-message', `Error: ${error.message}`);
+  // Python version
+  // ipcMain.on('script-run', (event, input, output, filename, duration, maxSize) => {
+  //   let rubyScriptPath = path.join(__dirname, 'scripts', 'generate.py');
+  //   if (isDev) rubyScriptPath = 'scripts/generate.py';
 
-        return;
-      }
+  //   const child = exec(`python3 ${rubyScriptPath} ${input} ${output} '${filename}' ${duration} ${maxSize}`, (error, stdout, stderr) => {
+  //     if (error) {
+  //       console.error(`Error: ${error.message}`);
+  //       event.sender.send('script-message', `Error: ${error.message}`);
 
-      event.sender.send('script-message', stdout);
-      if (stderr) {
-        event.sender.send('script-message', `Error: ${stderr}`);
-      }
+  //       return;
+  //     }
+
+  //     console.log(stdout);
+  //     event.sender.send('script-message', stdout);
+  //     if (stderr) {
+  //       console.error(`Error: ${stderr}`);
+  //       event.sender.send('script-message', `Error: ${stderr}`);
+  //     }
+  //   });
+
+  //   child.on('exit', (code) => {
+  //     console.log(`Script process exited with code ${code}`);
+  //   });
+  // });
+
+  // C++ version
+  ipcMain.on('script-run', (event, input, output, filename, duration, optimize, quantize) => {
+    let rubyScriptPath = path.join(__dirname, 'scripts', 'generate');
+    if (isDev) rubyScriptPath = 'scripts/generate';
+
+    const child = spawn(rubyScriptPath, [
+      input,
+      output,
+      filename,
+      duration,
+      optimize,
+      quantize,
+    ]);
+
+    console.log('script', input, output, filename, duration, optimize, quantize);
+
+    child.stdout.on('data', (data: any) => {
+      const message = data.toString().trim();
+      console.log(message);
+      event.sender.send('script-message', message);
     });
 
-    child.on('exit', (code) => {
+    child.stderr.on('data', (err: string) => {
+      const message = err.toString().trim();
+      console.error(`Error: ${message}`);
+      event.sender.send('script-message', `Error: ${message}`);
+    });
+
+    child.on('close', (code: string) => {
       console.log(`Script process exited with code ${code}`);
     });
   });

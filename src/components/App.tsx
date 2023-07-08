@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { secondsToMilliseconds } from 'date-fns';
-import { isEmpty, omit, some } from 'lodash';
+import { isEmpty, some } from 'lodash';
 
 type Form = {
-  filename?: string,
-  interval?: string,
   inputPath?: string,
   outputPath?: string,
+  filename?: string,
+  interval?: `${number}`,
+  optimize?: boolean,
+  quantize?: `${number}`,
 };
 
 function App() {
-  const [form, setForm] = useState<Form>({});
+  const { t } = useTranslation();
+  const [form, setForm] = useState<Form>({
+    optimize: false,
+    quantize: '128',
+  });
   const [message, setMessage] = useState<string | null>(null);
   const isDisabled = some([
     form.inputPath,
@@ -31,31 +38,26 @@ function App() {
   }, [message]);
 
   const handleChange = (key: string, value: any) => {
-    if (isEmpty(value) && !(value instanceof File)) {
-      setForm(omit(form, key));
-
-      return;
-    }
-
     setForm({ ...form, [key]: value });
   };
 
   const handleDirectoryChange = (key: string) => {
-    window.appAPI.selectFolder().then((res: string) => {
+    window.electron.selectFolder().then((res: string) => {
       handleChange(key, res);
     });
   };
 
   const handleSubmit = () => {
     const trueInterval = Math.abs(Number(form.interval));
-    setForm({ ...form, interval: String(trueInterval) });
+    setForm({ ...form, interval: `${trueInterval}` });
 
-    window.appAPI.runScript(
-      form.inputPath,
-      form.outputPath,
-      form.filename,
-      secondsToMilliseconds(trueInterval),
-      150,
+    window.electron.runScript(
+      form.inputPath as string,
+      form.outputPath as string,
+      form.filename as string,
+      trueInterval * 100,
+      form.optimize || false,
+      Number(form.quantize),
     ).then((res: string) => {
       setMessage(res);
     });
@@ -71,7 +73,7 @@ function App() {
       </div>
       <div className="form-wrapper">
         <div className="input finder" onClick={() => handleDirectoryChange('inputPath')}>
-          <label htmlFor="inputPath">Input folder</label>
+          <label htmlFor="inputPath">{t('input_path')}</label>
           <input
             id="inputPath"
             defaultValue={form.inputPath || ''}
@@ -82,7 +84,7 @@ function App() {
         </div>
 
         <div className="input finder" onClick={() => handleDirectoryChange('outputPath')}>
-          <label htmlFor="outputPath">Output folder</label>
+          <label htmlFor="outputPath">{t('output_path')}</label>
           <input
             id="outputPath"
             defaultValue={form.outputPath || ''}
@@ -93,7 +95,7 @@ function App() {
         </div>
 
         <div className="input">
-          <label htmlFor="filename">Filename (&quot;{String('{{ dim }}')}&quot; will be replaced)</label>
+          <label htmlFor="filename">{t('filename')}</label>
           <input
             id="filename"
             value={form.filename || ''}
@@ -104,7 +106,7 @@ function App() {
         </div>
 
         <div className="input">
-          <label htmlFor="interval">Frame interval (seconds)</label>
+          <label htmlFor="interval">{t('interval')}</label>
           <input
             id="interval"
             value={form.interval || ''}
@@ -116,6 +118,32 @@ function App() {
           />
         </div>
 
+        <div className="split-wrapper">
+          <label className="input-checkbox" htmlFor="optimize">
+            {t('optimize')}
+            <div className="switch">
+              <input
+                id="optimize"
+                checked={form.optimize || false}
+                onChange={() => handleChange('optimize', !form.optimize)}
+                type="checkbox"
+              />
+              <span className="slider" />
+            </div>
+          </label>
+          <div className="input">
+            <label htmlFor="quantize">{t('quantize')}</label>
+            <input
+              id="quantize"
+              value={form.quantize || ''}
+              onChange={(e) => handleChange('quantize', e.target.value)}
+              min={0}
+              step={1}
+              type="number"
+            />
+          </div>
+        </div>
+
         <hr />
 
         <button
@@ -123,7 +151,7 @@ function App() {
           onClick={handleSubmit}
           disabled={isDisabled}
         >
-          START
+          {t('start')}
         </button>
       </div>
     </div>

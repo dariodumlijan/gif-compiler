@@ -1,1 +1,9 @@
-{}
+{
+  "filename": "Filename (\"{{ dim }}\" will be replaced)",
+  "interval": "Frame interval (seconds)",
+  "input_path": "Input folder",
+  "output_path": "Output folder",
+  "optimize": "Optimize",
+  "quantize": "Quantize colors",
+  "start": "START"
+}

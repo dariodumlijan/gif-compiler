@@ -21,9 +21,7 @@
     "jsx": "react-jsx",
     "noImplicitAny": false
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "sourceMap": true,
   "inlineSources": true,
   "sourceRoot": "/"
