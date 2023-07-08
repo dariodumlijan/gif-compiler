@@ -26,38 +26,18 @@ function createWindow() {
     if (!canceled) return filePaths[0];
   });
 
-  // Python version
-  // ipcMain.on('script-run', (event, input, output, filename, duration, maxSize) => {
-  //   let rubyScriptPath = path.join(__dirname, 'scripts', 'generate.py');
-  //   if (isDev) rubyScriptPath = 'scripts/generate.py';
-
-  //   const child = exec(`python3 ${rubyScriptPath} ${input} ${output} '${filename}' ${duration} ${maxSize}`, (error, stdout, stderr) => {
-  //     if (error) {
-  //       console.error(`Error: ${error.message}`);
-  //       event.sender.send('script-message', `Error: ${error.message}`);
-
-  //       return;
-  //     }
-
-  //     console.log(stdout);
-  //     event.sender.send('script-message', stdout);
-  //     if (stderr) {
-  //       console.error(`Error: ${stderr}`);
-  //       event.sender.send('script-message', `Error: ${stderr}`);
-  //     }
-  //   });
-
-  //   child.on('exit', (code) => {
-  //     console.log(`Script process exited with code ${code}`);
-  //   });
-  // });
-
   // C++ version
   ipcMain.on('script-run', (event, input, output, filename, duration, optimize, quantize) => {
-    let rubyScriptPath = path.join(__dirname, 'scripts', 'generate');
-    if (isDev) rubyScriptPath = 'scripts/generate';
+    // getAppPath = /Applications/app_name.app/Contents/Resources/app.asar/resources
+    const resourcesPath = path.join(app.getAppPath(), 'resources');
+    let scriptPath = '';
+    if (isDev) {
+      scriptPath = 'scripts/generate';
+    } else {
+      scriptPath = path.join(resourcesPath.replace('app.asar/resources', ''), 'scripts', 'generate');
+    }
 
-    const child = spawn(rubyScriptPath, [
+    const child = spawn(scriptPath, [
       input,
       output,
       filename,
@@ -65,8 +45,6 @@ function createWindow() {
       optimize,
       quantize,
     ]);
-
-    console.log('script', input, output, filename, duration, optimize, quantize);
 
     child.stdout.on('data', (data: any) => {
       const message = data.toString().trim();
