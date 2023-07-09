@@ -49,7 +49,13 @@ function App() {
 
   const handleSubmit = () => {
     const trueInterval = Math.abs(Number(form.interval));
-    setForm({ ...form, interval: `${trueInterval}` });
+    const trueQuantize = Math.abs(Number(form.quantize));
+    const finalQuantize = trueQuantize > 256 ? 256 : trueQuantize;
+    setForm({
+      ...form,
+      interval: `${trueInterval}`,
+      quantize: `${finalQuantize}`,
+    });
 
     window.electron.runScript(
       form.inputPath as string,
@@ -57,7 +63,7 @@ function App() {
       form.filename as string,
       trueInterval * 100,
       form.optimize || false,
-      Number(form.quantize),
+      finalQuantize,
     ).then((res: string) => {
       setMessage(res);
     });
@@ -137,6 +143,7 @@ function App() {
               id="quantize"
               value={form.quantize || ''}
               onChange={(e) => handleChange('quantize', e.target.value)}
+              max={256}
               min={0}
               step={1}
               type="number"
