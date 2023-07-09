@@ -1,4 +1,4 @@
-# Sudar Automation
+# Gif Compiler
 
 ### Compile c++ code
 ```Bash

@@ -14,11 +14,16 @@ function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 600,
+    title: 'Gif Compiler',
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
+
+  // getAppPath = /Applications/app_name.app/Contents/Resources/app.asar/resources
+  const resourcesPath = path.join(app.getAppPath(), 'resources');
+
   ipcMain.handle('dialog:openDirectory', async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog(win as BrowserWindow, {
       properties: ['openDirectory'],
@@ -28,12 +33,8 @@ function createWindow() {
 
   // C++ version
   ipcMain.on('script-run', (event, input, output, filename, duration, optimize, quantize) => {
-    // getAppPath = /Applications/app_name.app/Contents/Resources/app.asar/resources
-    const resourcesPath = path.join(app.getAppPath(), 'resources');
-    let scriptPath = '';
-    if (isDev) {
-      scriptPath = 'scripts/generate';
-    } else {
+    let scriptPath = 'scripts/generate';
+    if (!isDev) {
       scriptPath = path.join(resourcesPath.replace('app.asar/resources', ''), 'scripts', 'generate');
     }
 

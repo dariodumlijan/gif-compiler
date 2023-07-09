@@ -1,11 +1,12 @@
 {
-  "name": "sudar-automation",
+  "name": "gif-compiler",
   "version": "1.0.0",
   "private": true,
   "homepage": ".",
   "main": "build/electron/main.js",
   "author": "Dario Dumlijan",
-  "description": "Sudar automation",
+  "productName": "Gif Compiler",
+  "description": "Gif Compiler",
   "build": {
     "extends": null,
     "files": [
@@ -18,6 +19,11 @@
       {
         "from": "scripts",
         "to": "scripts",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "public/icon.icns",
+        "to": "electron.icns",
         "filter": ["**/*"]
       }
     ]
