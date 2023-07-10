@@ -17,14 +17,18 @@
     },
     "extraResources": [
       {
-        "from": "scripts",
-        "to": "scripts",
-        "filter": ["**/*"]
+        "from": "scripts/generate",
+        "to": "scripts/generate",
+        "filter": [
+          "**/*"
+        ]
       },
       {
         "from": "public/icon.icns",
         "to": "electron.icns",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ]
   },
