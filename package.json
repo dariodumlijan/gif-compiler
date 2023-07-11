@@ -8,32 +8,28 @@
   "productName": "Gif Compiler",
   "description": "Gif Compiler",
   "build": {
+    "appId": "com.chimerastudio.gifcompiler",
+    "icon": "public/icon.icns",
     "extends": null,
-    "files": [
-      "build/**/*"
-    ],
+    "files": ["build/**/*"],
     "directories": {
       "buildResources": "assets"
     },
     "extraResources": [
       {
-        "from": "scripts/generate",
-        "to": "scripts/generate",
-        "filter": [
-          "**/*"
-        ]
+        "from": "preinstall.sh",
+        "to": ".",
+        "filter": ["**/*"]
       },
       {
-        "from": "public/icon.icns",
-        "to": "electron.icns",
-        "filter": [
-          "**/*"
-        ]
+        "from": "scripts",
+        "to": "scripts",
+        "filter": ["**/generate"]
       }
     ]
   },
   "scripts": {
-    "postinstall": "electron-builder install-app-deps",
+    "preinstall": "bash preinstall.sh",
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder",
     "electron:build:dev": "electron-builder --dir",
@@ -80,7 +76,6 @@
     "cross-env": "^7.0.3",
     "electron": "^25.0.1",
     "electron-builder": "^23.6.0",
-    "electron-rebuild": "^3.2.9",
     "eslint": "^8.21.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",

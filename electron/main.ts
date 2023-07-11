@@ -8,6 +8,14 @@ import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-insta
 import * as isDev from 'electron-is-dev';
 /* eslint-disable no-console */
 
+// getAppPath = /Applications/app_name.app/Contents/Resources/app.asar
+const resourcesPath = app.getAppPath().replace('app.asar', '');
+const scriptPath = path.join(resourcesPath, 'scripts', 'generate');
+
+// Set environment variables here
+// process.env.MAGICK_HOME = path.join(resourcesPath, 'scripts', 'x86_64');
+// process.env.DYLD_LIBRARY_PATH = path.join(resourcesPath, 'scripts', 'x86_64', 'lib');
+
 let win: BrowserWindow | null = null;
 
 function createWindow() {
@@ -21,9 +29,6 @@ function createWindow() {
     },
   });
 
-  // getAppPath = /Applications/app_name.app/Contents/Resources/app.asar/resources
-  const resourcesPath = path.join(app.getAppPath(), 'resources');
-
   ipcMain.handle('dialog:openDirectory', async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog(win as BrowserWindow, {
       properties: ['openDirectory'],
@@ -33,11 +38,6 @@ function createWindow() {
 
   // C++ version
   ipcMain.on('script-run', (event, input, output, filename, duration, optimize, quantize) => {
-    let scriptPath = 'scripts/generate';
-    if (!isDev) {
-      scriptPath = path.join(resourcesPath.replace('app.asar/resources', ''), 'scripts', 'generate');
-    }
-
     const child = spawn(scriptPath, [
       input,
       output,

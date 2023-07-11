@@ -3,7 +3,7 @@
 #include <regex>
 #include <string>
 #include <vector>
-#include "libs/Magick++.h"
+#include <Magick++.h>
 
 namespace fs = std::filesystem;
 
