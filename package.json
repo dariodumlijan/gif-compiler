@@ -17,19 +17,16 @@
     },
     "extraResources": [
       {
-        "from": "preinstall.sh",
-        "to": ".",
-        "filter": ["**/*"]
-      },
-      {
         "from": "scripts",
         "to": "scripts",
-        "filter": ["**/generate"]
+        "filter": [
+          "**/generate",
+          "**/postinstall.sh"
+        ]
       }
     ]
   },
   "scripts": {
-    "preinstall": "bash preinstall.sh",
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder",
     "electron:build:dev": "electron-builder --dir",

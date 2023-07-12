@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Check if Homebrew is installed
 if ! command -v brew &> /dev/null; then
@@ -6,20 +6,32 @@ if ! command -v brew &> /dev/null; then
 
     # Install Homebrew
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    if ! command -v brew &> /dev/null; then
+        echo "Failed to install Homebrew"
+        exit -1
+    fi
     
     echo "Homebrew is installed."
 else
     echo "Homebrew is already installed."
 fi
 
-# Check if the required C++ libraries are installed
+# Check if the required C++ library is installed
 if ! command -v magick &> /dev/null; then
     echo "The required C++ library is not found. Installing..."
     
     # Install the library using a package manager like Homebrew
     brew install imagemagick
+
+    if ! command -v magick &> /dev/null; then
+        echo "Failed to install C++ library"
+        exit -1
+    fi
     
     echo "The required C++ library is installed."
 else
     echo "The required C++ library is already installed."
 fi
+
+exit 0

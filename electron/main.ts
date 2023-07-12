@@ -1,4 +1,5 @@
-import { spawn } from 'child_process';
+/* eslint-disable no-console */
+import { exec, spawn } from 'child_process';
 import * as path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
@@ -6,23 +7,17 @@ import {
 } from 'electron';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import * as isDev from 'electron-is-dev';
-/* eslint-disable no-console */
 
 // getAppPath = /Applications/app_name.app/Contents/Resources/app.asar
 const resourcesPath = app.getAppPath().replace('app.asar', '');
-const scriptPath = path.join(resourcesPath, 'scripts', 'generate');
-
-// Set environment variables here
-// process.env.MAGICK_HOME = path.join(resourcesPath, 'scripts', 'x86_64');
-// process.env.DYLD_LIBRARY_PATH = path.join(resourcesPath, 'scripts', 'x86_64', 'lib');
 
 let win: BrowserWindow | null = null;
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
     title: 'Gif Compiler',
+    height: 700,
+    width: 650,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js'),
@@ -36,8 +31,42 @@ function createWindow() {
     if (!canceled) return filePaths[0];
   });
 
+  ipcMain.on('install-deps', (event) => {
+    const scriptPath = path.join(resourcesPath, 'scripts', 'postinstall.sh');
+
+    exec(`bash ${scriptPath}`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error: ${error.message}`);
+        event.sender.send('install-message', {
+          message: `Error: ${error.message}`,
+          status: 500,
+        });
+
+        return;
+      }
+
+      if (stderr) {
+        console.error(`Error: ${stderr}`);
+        event.sender.send('install-message', {
+          message: `Error: ${stderr}`,
+          status: 500,
+        });
+
+        return;
+      }
+
+      const message = stdout.toString().trim();
+      console.log(message);
+      event.sender.send('install-message', {
+        message,
+        status: 200,
+      });
+    });
+  });
+
   // C++ version
   ipcMain.on('script-run', (event, input, output, filename, duration, optimize, quantize) => {
+    const scriptPath = path.join(resourcesPath, 'scripts', 'generate');
     const child = spawn(scriptPath, [
       input,
       output,
@@ -85,11 +114,8 @@ function createWindow() {
   }
 
   // DevTools
-  installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
-
   if (isDev) {
+    installExtension(REACT_DEVELOPER_TOOLS).then((name) => console.log(`Added Extension:  ${name}`)).catch((err) => console.log('An error occurred: ', err));
     win.webContents.openDevTools();
   }
 }
@@ -97,13 +123,9 @@ function createWindow() {
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('activate', () => {
-  if (win === null) {
-    createWindow();
-  }
+  if (win === null) createWindow();
 });

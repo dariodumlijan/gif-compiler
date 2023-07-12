@@ -4,6 +4,12 @@ import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('electron', {
   selectFolder: () => ipcRenderer.invoke('dialog:openDirectory'),
+  installDeps: () => new Promise((resolve) => {
+    ipcRenderer.send('install-deps');
+    ipcRenderer.on('install-message', (_, args) => {
+      resolve(args);
+    });
+  }),
   runScript: (
     input: string,
     output: string,

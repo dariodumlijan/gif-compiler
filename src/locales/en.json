@@ -1,4 +1,6 @@
 {
+  "loading_1": "We are setting everything up for you,",
+  "loading_2": "please be patient...",
   "filename": "Filename (\"{{ dim }}\" will be replaced)",
   "interval": "Frame interval (seconds)",
   "input_path": "Input folder",
