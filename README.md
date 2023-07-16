@@ -1,37 +1,33 @@
 # Gif Compiler
 
+### Compile C++ code
+```Bash
+# M1
+clang++ -o generate generate.cpp `Magick++-config --cppflags --cxxflags --ldflags --libs` -std=c++17
+
+# Intel
+clang++ -o generate generate.cpp `/usr/local/Cellar/imagemagick/7.1.1-12/bin/Magick++-config --cppflags --cxxflags --ldflags --libs` -std=c++17 -arch x86_64
+```
+
 ### Build
 ```Bash
-export CSC_IDENTITY_AUTO_DISCOVERY=false
-
-// Universal
+# Universal
 yarn electron:build
 
-// M1
+# M1
 yarn electron:build --arm64
 
-// Intel
+# Intel
 yarn electron:build --x64
 ```
 
-### Compile C++ code
+### After build process
+1. Create ReadWrite copy of DMG
 ```Bash
-// M1 - OLD
-clang++ -o generate generate.cpp `Magick++-config --cppflags --cxxflags --ldflags --libs` -std=c++17
-
-# // Universal
-# clang++ -o generate -std=c++17 -Ilibs/arm64 generate.cpp -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 \
-#     -Llibs/arm64/lib -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk \
-#     -lMagick++-7.Q16HDRI -lMagickWand-7.Q16HDRI -lMagickCore-7.Q16HDRI -lfreetype -lbz2 -lfontconfig
-
-# // M1
-# clang++ -o generate -std=c++17 -Ilibs/arm64 generate.cpp -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 \
-#     -Llibs/arm64/lib -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk \
-#     -target arm64-apple-macos11 -lMagick++-7.Q16HDRI -lMagickWand-7.Q16HDRI -lMagickCore-7.Q16HDRI -lfreetype -lbz2 -lfontconfig
-
-# // Intel
-# clang++ -o generate -std=c++17 -Ilibs/x86_64 generate.cpp -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 \
-#     -Llibs/x86_64/lib -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk \
-#     -target x86_64-apple-macos11 -lMagick++-7.Q16HDRI -lMagickWand-7.Q16HDRI -lMagickCore-7.Q16HDRI -lfreetype -lbz2 -lfontconfig
-
+hdiutil convert -format UDRW -o "ReadWriteVersion.dmg" "ReadVersion.dmg"
+```
+2. Add `preinstall` script to `ReadWriteVersion.dmg`
+3. Convert `ReadWriteVersion.dmg` back to `read-only``
+```Bash
+hdiutil convert -format UDRO -o "ReadVersion.dmg" "ReadWriteVersion.dmg"
 ```

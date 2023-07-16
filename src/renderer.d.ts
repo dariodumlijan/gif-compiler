@@ -1,9 +1,5 @@
 export interface IElectronAPI {
   selectFolder: () => Promise<string>,
-  installDeps: () => Promise<{
-    message: string,
-    status: 200 | 500,
-  }>,
   runScript: (
     input: string,
     output: string,

@@ -11,7 +11,9 @@
     "appId": "com.chimerastudio.gifcompiler",
     "icon": "public/icon.icns",
     "extends": null,
-    "files": ["build/**/*"],
+    "files": [
+      "build/**/*"
+    ],
     "directories": {
       "buildResources": "assets"
     },
@@ -19,14 +21,12 @@
       {
         "from": "scripts",
         "to": "scripts",
-        "filter": [
-          "**/generate",
-          "**/postinstall.sh"
-        ]
+        "filter": ["**/generate"]
       }
     ]
   },
   "scripts": {
+    "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder",
     "electron:build:dev": "electron-builder --dir",

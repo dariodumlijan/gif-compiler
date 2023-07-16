@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Check if Homebrew is installed
 if ! command -v brew &> /dev/null; then
@@ -13,8 +13,6 @@ if ! command -v brew &> /dev/null; then
     fi
     
     echo "Homebrew is installed."
-else
-    echo "Homebrew is already installed."
 fi
 
 # Check if the required C++ library is installed
@@ -30,8 +28,6 @@ if ! command -v magick &> /dev/null; then
     fi
     
     echo "The required C++ library is installed."
-else
-    echo "The required C++ library is already installed."
 fi
 
 exit 0

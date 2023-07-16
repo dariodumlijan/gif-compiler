@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { exec, spawn } from 'child_process';
+import { exec } from 'child_process';
 import * as path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
@@ -31,65 +31,32 @@ function createWindow() {
     if (!canceled) return filePaths[0];
   });
 
-  ipcMain.on('install-deps', (event) => {
-    const scriptPath = path.join(resourcesPath, 'scripts', 'postinstall.sh');
+  // C++ version
+  ipcMain.on('script-run', (event, input, output, filename, duration, optimize, quantize) => {
+    const scriptPath = path.join(resourcesPath, 'scripts', 'generate');
+    const command = `"${scriptPath}" "${input}" "${output}" "${filename}" ${duration} ${optimize} ${quantize}`;
 
-    exec(`bash ${scriptPath}`, (error, stdout, stderr) => {
+    exec(command, (error, stdout, stderr) => {
       if (error) {
         console.error(`Error: ${error.message}`);
-        event.sender.send('install-message', {
-          message: `Error: ${error.message}`,
-          status: 500,
-        });
+        event.sender.send('script-message', `Error: ${error.message}`);
 
         return;
       }
 
       if (stderr) {
-        console.error(`Error: ${stderr}`);
-        event.sender.send('install-message', {
-          message: `Error: ${stderr}`,
-          status: 500,
-        });
-
-        return;
+        const message = stderr.toString().trim();
+        console.error(`Error: ${message}`);
+        event.sender.send('script-message', `Error: ${message}`);
       }
 
-      const message = stdout.toString().trim();
-      console.log(message);
-      event.sender.send('install-message', {
-        message,
-        status: 200,
-      });
-    });
-  });
+      if (stdout) {
+        const message = stdout.toString().trim();
+        console.log(message);
+        event.sender.send('script-message', message);
+      }
 
-  // C++ version
-  ipcMain.on('script-run', (event, input, output, filename, duration, optimize, quantize) => {
-    const scriptPath = path.join(resourcesPath, 'scripts', 'generate');
-    const child = spawn(scriptPath, [
-      input,
-      output,
-      filename,
-      duration,
-      optimize,
-      quantize,
-    ]);
-
-    child.stdout.on('data', (data: any) => {
-      const message = data.toString().trim();
-      console.log(message);
-      event.sender.send('script-message', message);
-    });
-
-    child.stderr.on('data', (err: string) => {
-      const message = err.toString().trim();
-      console.error(`Error: ${message}`);
-      event.sender.send('script-message', `Error: ${message}`);
-    });
-
-    child.on('close', (code: string) => {
-      console.log(`Script process exited with code ${code}`);
+      console.log('Script process exited');
     });
   });
 
