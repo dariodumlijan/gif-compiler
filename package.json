@@ -1,6 +1,6 @@
 {
   "name": "gif-compiler",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "homepage": ".",
   "main": "build/electron/main.js",
@@ -21,7 +21,9 @@
       {
         "from": "scripts",
         "to": "scripts",
-        "filter": ["**/generate"]
+        "filter": [
+          "**/generate"
+        ]
       }
     ]
   },
@@ -71,8 +73,8 @@
     "@typescript-eslint/parser": "^5.33.0",
     "concurrently": "^8.1.0",
     "cross-env": "^7.0.3",
-    "electron": "^25.0.1",
-    "electron-builder": "^23.6.0",
+    "electron": "^26.2.1",
+    "electron-builder": "^24.6.4",
     "eslint": "^8.21.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
