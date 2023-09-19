@@ -24,13 +24,6 @@ function createWindow() {
     },
   });
 
-  ipcMain.handle('dialog:openDirectory', async () => {
-    const { canceled, filePaths } = await dialog.showOpenDialog(win as BrowserWindow, {
-      properties: ['openDirectory'],
-    });
-    if (!canceled) return filePaths[0];
-  });
-
   // C++ version
   ipcMain.on('script-run', (event, input, output, filename, duration, optimize, quantize) => {
     const scriptPath = path.join(resourcesPath, 'scripts', 'generate');
@@ -86,6 +79,13 @@ function createWindow() {
     win.webContents.openDevTools();
   }
 }
+
+ipcMain.handle('dialog:openDirectory', async () => {
+  const { canceled, filePaths } = await dialog.showOpenDialog(win as BrowserWindow, {
+    properties: ['openDirectory'],
+  });
+  if (!canceled) return filePaths[0];
+});
 
 app.on('ready', createWindow);
 
