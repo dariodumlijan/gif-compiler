@@ -20,6 +20,8 @@
 .env.development.local
 .env.test.local
 .env.production.local
+env.json
+/certificates
 /public/sitemap.xml
 /.vscode
 /dump.rdb
