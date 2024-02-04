@@ -3,10 +3,13 @@
 ### Compile C++ code
 ```Bash
 # M1
-clang++ -o generate generate.cpp `Magick++-config --cppflags --cxxflags --ldflags --libs` -std=c++17
+clang++ -static -o generate generate.cpp `Magick++-config --cppflags --cxxflags --ldflags --libs` -std=c++17
 
 # Intel
-clang++ -o generate generate.cpp `/usr/local/Cellar/imagemagick/7.1.1-12/bin/Magick++-config --cppflags --cxxflags --ldflags --libs` -std=c++17 -arch x86_64
+clang++ -static -o generate generate.cpp `/usr/local/Cellar/imagemagick/7.1.1-12/bin/Magick++-config --cppflags --cxxflags --ldflags --libs` -std=c++17 -arch x86_64
+
+# Intel v2
+clang++ -o generate generate.cpp `magick/bin/Magick++-config --cppflags --cxxflags --ldflags --libs` -std=c++17 -arch x86_64
 ```
 
 ### Build
