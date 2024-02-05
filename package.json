@@ -20,7 +20,10 @@
     "extraResources": [
       {
         "from": "scripts",
-        "to": "scripts"
+        "to": "scripts",
+        "filter": [
+          "**/generate"
+        ]
       }
     ]
   },
