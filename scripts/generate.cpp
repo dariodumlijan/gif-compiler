@@ -1,10 +1,11 @@
 #include <filesystem>
 #include <iostream>
+#include <limits.h>
 #include <regex>
 #include <string>
+#include <unistd.h>
 #include <vector>
-#include <Magick++.h> // dynamic header
-// #include "magick/include/ImageMagick-7/Magick++.h" // portable header
+#include <Magick++.h>
 
 namespace fs = std::filesystem;
 

@@ -7,19 +7,17 @@
 ```sh
 # Intel - x86_64
 c++ -o ./scripts/generate ./scripts/generate.cpp \
-`/usr/local/Cellar/imagemagick/7.1.1-12/bin/Magick++-config --cppflags --cxxflags --ldflags --libs` \
+`/usr/local/opt/imagemagick@6/bin/Magick++-config --cppflags --cxxflags --ldflags --libs` \
 -std=c++17 -arch x86_64
 ```
 
 ```sh
-# Intel - x86_64 - static (this compiles but still requires many deps)
-export MAGICK_HOME="$PWD/scripts/magick"
-export MAGICK_FLAGS="-Xpreprocessor -fopenmp -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -I$MAGICK_HOME/include/ImageMagick-7 -L$MAGICK_HOME/lib -lMagick++-7.Q16HDRI -lMagickWand-7.Q16HDRI -lMagickCore-7.Q16HDRI"
-c++ -o ./scripts/generate ./scripts/generate.cpp `echo $MAGICK_FLAGS` -std=c++17 -arch x86_64
+# Intel - x86_64 - static
+c++ -o ./scripts/generate ./scripts/generate.cpp \
+`/usr/local/opt/imagemagick@6/bin/Magick++-config --cppflags --cxxflags --ldflags --libs` \
+-std=c++17 -arch x86_64
 
-install_name_tool -change /ImageMagick-7.0.10/lib/libMagick++-7.Q16HDRI.4.dylib @executable_path/magick/lib/libMagick++-7.Q16HDRI.4.dylib ./scripts/generate
-install_name_tool -change /ImageMagick-7.0.10/lib/lMagickWand-7.Q16HDRI.4.dylib @executable_path/magick/lib/lMagickWand-7.Q16HDRI.4.dylib ./scripts/generate
-install_name_tool -change /ImageMagick-7.0.10/lib/lMagickCore-7.Q16HDRI.4.dylib @executable_path/magick/lib/lMagickCore-7.Q16HDRI.4.dylib ./scripts/generate
+dylibbundler -of -b -x ./scripts/generate -d ./scripts/lib/ -p @executable_path/lib/
 ```
 
 ### Check if generate executable has dynamic links
