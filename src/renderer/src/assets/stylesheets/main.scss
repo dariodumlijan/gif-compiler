@@ -2,17 +2,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap");
 
 html {
-  background-image: linear-gradient(120deg, colors.$bgSecondary 0%, colors.$bgPrimary 100%);
-  color: colors.$white;
   height: 100%;
-  min-height: 500px;
   width: 100%;
 
   body,
   #root {
+    background-image: linear-gradient(120deg, colors.$bgSecondary 0%, colors.$bgPrimary 100%);
+    background-repeat: no-repeat;
+    color: colors.$white;
+    display: flex;
     font-family: "Sora", Helvetica, sans-serif;
     font-weight: 400;
-    height: 100%;
+    min-height: 100%;
     width: 100%;
 
     .App {
@@ -215,6 +216,7 @@ html {
         top: 0;
         transition: 0.3s;
         visibility: hidden;
+        white-space: pre-wrap;
         width: 100%;
         z-index: 1;
 

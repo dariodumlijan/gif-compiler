@@ -2,28 +2,10 @@
   "name": "gif-compiler",
   "version": "2.0.0",
   "private": true,
-  "productName": "Gif Compiler",
   "description": "Gif Compiler",
   "main": "./out/main/index.js",
   "author": "Dario Dumlijan",
   "homepage": ".",
-  "build": {
-    "appId": "com.chimerastudio.gifcompiler",
-    "icon": "public/icon.icns",
-    "extends": null,
-    "files": [
-      "out/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    },
-    "extraResources": [
-      {
-        "from": "scripts",
-        "to": "scripts"
-      }
-    ]
-  },
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint .",

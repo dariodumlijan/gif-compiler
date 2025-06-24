@@ -75,7 +75,7 @@ function App(): React.JSX.Element {
           show: message
         })}
       >
-        <span>{message}</span>
+        <p>{message}</p>
       </div>
       <div className="form-container">
         <Help />
