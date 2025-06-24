@@ -1,104 +1,56 @@
 {
   "name": "gif-compiler",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "private": true,
-  "homepage": ".",
-  "main": "build/electron/main.js",
-  "author": "Dario Dumlijan",
-  "productName": "Gif Compiler",
   "description": "Gif Compiler",
-  "build": {
-    "appId": "com.chimerastudio.gifcompiler",
-    "icon": "public/icon.icns",
-    "extends": null,
-    "files": [
-      "build/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    },
-    "extraResources": [
-      {
-        "from": "scripts",
-        "to": "scripts",
-        "filter": [
-          "**/generate"
-        ]
-      }
-    ]
-  },
+  "main": "./out/main/index.js",
+  "author": "Dario Dumlijan",
+  "homepage": ".",
   "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
+    "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
+    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "build": "npm run typecheck && electron-vite build",
     "postinstall": "electron-builder install-app-deps",
-    "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
-    "electron:build": "yarn build && tsc -p electron && electron-builder",
-    "electron:build:dev": "electron-builder --dir",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test-coverage": "react-scripts test --watchAll=false --coverage",
-    "types": "tsc",
-    "lint": "eslint --ignore-path .eslintignore ./src --ext .jsx,.js,.tsx,.ts"
+    "build:unpack": "npm run build && electron-builder --dir",
+    "build:win": "npm run build && electron-builder --win",
+    "build:mac": "electron-vite build && electron-builder --mac",
+    "build:linux": "electron-vite build && electron-builder --linux"
   },
   "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "@types/electron-devtools-installer": "^2.2.2",
-    "@types/jest": "^27.0.1",
-    "@types/lodash": "^4.14.185",
-    "@types/node": "^16.7.13",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "classnames": "^2.3.2",
-    "date-fns": "^2.30.0",
-    "electron-devtools-installer": "^3.2.0",
-    "electron-is-dev": "^2.0.0",
-    "electron-reload": "^2.0.0-alpha.1",
-    "i18next": "^21.9.0",
-    "lodash": "^4.17.21",
-    "material-icons": "^1.11.10",
-    "pillow": "^0.0.9",
-    "python-shell": "^5.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-i18next": "^11.18.3",
-    "react-router-dom": "^6.4.1",
-    "react-scripts": "5.0.1",
-    "sass": "^1.55.0",
-    "typescript": "^4.7.4",
-    "web-vitals": "^2.1.0"
+    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/utils": "^4.0.0",
+    "classnames": "^2.5.1",
+    "date-fns": "^4.1.0",
+    "sass": "^1.89.2"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.33.0",
-    "@typescript-eslint/parser": "^5.33.0",
-    "concurrently": "^8.1.0",
-    "cross-env": "^7.0.3",
-    "electron": "^26.2.1",
-    "electron-builder": "^24.6.4",
-    "eslint": "^8.21.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^17.0.0",
-    "wait-on": "^7.0.1"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "@electron-toolkit/eslint-config-prettier": "^3.0.0",
+    "@electron-toolkit/eslint-config-ts": "^3.0.0",
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "@types/lodash": "^4.17.18",
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^35.1.5",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^3.1.0",
+    "eslint": "^9.24.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "prettier": "^3.5.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.2.6"
   },
   "engines": {
-    "node": "16.10.x"
+    "node": ">=23.0"
   }
 }
