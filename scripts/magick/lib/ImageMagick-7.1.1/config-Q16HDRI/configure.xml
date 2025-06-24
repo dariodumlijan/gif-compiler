@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuremap [
+  <!ELEMENT configuremap (configure)+>
+  <!ATTLIST configuremap xmlns CDATA #FIXED ''>
+  <!ELEMENT configure EMPTY>
+  <!ATTLIST configure xmlns CDATA #FIXED '' name NMTOKEN #REQUIRED
+    value CDATA #REQUIRED>
+]>
+<!--
+  ImageMagick build configuration.
+-->
+<configuremap>
+  <configure name="CC" value="gcc"/>
+  <configure name="CFLAGS" value="-I/usr/local/opt/webp/include -I/usr/local/opt/webp/include/webp -I/usr/local/opt/webp/include -I/usr/local/opt/webp/include/webp -I/usr/local/opt/libtiff/include -I/opt/homebrew/opt/zstd/include -I/usr/local/Cellar/xz/5.8.1/include -I/usr/local/opt/jpeg-turbo/include -I/usr/local/Cellar/libraw/0.21.4/include/libraw -I/usr/local/Cellar/libraw/0.21.4/include -I/usr/local/opt/little-cms2/include -I/usr/local/opt/libpng/include/libpng16 -I/usr/local/Cellar/xz/5.8.1/include -I/usr/local/Cellar/liblqr/0.4.3/include/lqr-1 -I/usr/local/Cellar/glib/2.84.3/include/glib-2.0 -I/usr/local/Cellar/glib/2.84.3/lib/glib-2.0/include -I/usr/local/opt/gettext/include -I/usr/local/Cellar/pcre2/10.45/include -I/usr/local/Cellar/openjpeg/2.5.3/include/openjpeg-2.5 -I/usr/local/opt/jpeg-xl/include -I/opt/homebrew/Cellar/highway/1.2.0/include -DHWY_SHARED_DEFINE -I/usr/local/Cellar/brotli/1.1.0/include -I/usr/local/opt/little-cms2/include -I/usr/local/opt/libheif/include -I/usr/local/Cellar/libde265/1.0.16/include -I/usr/local/Cellar/x265/4.1/include -I/usr/local/Cellar/aom/3.12.1/include -I/usr/local/Cellar/libvmaf/3.0.0/include -I/usr/local/Cellar/libvmaf/3.0.0/include/libvmaf -I/usr/local/opt/webp/include/webp -I/usr/local/Cellar/libzip/1.11.4/include -Wall -arch x86_64 -mtune=westmere -fexceptions -D_FORTIFY_SOURCE=0 -pthread -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -I/usr/local/opt/jpeg-turbo/include -DMAGICKCORE_CHANNEL_MASK_DEPTH=32"/>
+  <configure name="CHANNEL_MASK_DEPTH" value="32"/>
+  <configure name="CODER_PATH" value="/Users/dariodumlijan/projects/gif-compiler/scripts/magick/lib/ImageMagick-7.1.1/modules-Q16HDRI/coders"/>
+  <configure name="CONFIGURE_PATH" value="/Users/dariodumlijan/projects/gif-compiler/scripts/magick/etc/ImageMagick-7/"/>
+  <configure name="CONFIGURE" value="./configure  '--prefix=/Users/dariodumlijan/projects/gif-compiler/scripts/magick' '--without-x' '--without-fontconfig' '--without-freetype' '--without-lcms' '--without-pango' '--with-lqr' 'CFLAGS=-arch x86_64' 'CXXFLAGS=-arch x86_64' 'LDFLAGS=-arch x86_64 -L/usr/local/lib' 'CPPFLAGS=-I/usr/local/include' 'PKG_CONFIG_PATH=/usr/local/lib/pkgconfig'"/>
+  <configure name="COPYRIGHT" value="Copyright (C) 1999 ImageMagick Studio LLC"/>
+  <configure name="CPPFLAGS" value="-I/Users/dariodumlijan/projects/gif-compiler/scripts/magick/include/ImageMagick-7"/>
+  <configure name="CXXFLAGS" value="-arch x86_64 -pthread"/>
+  <configure name="CXX" value="g++"/>
+  <configure name="DEFS" value="-DHAVE_CONFIG_H"/>
+  <configure name="DELEGATES" value="bzlib heic jng jp2 jpeg jxl lqr lzma png ps raw tiff video webp xml zip zlib zstd"/>
+  <configure name="DISTCHECK_CONFIG_FLAGS" value="'CFLAGS=-arch x86_64' 'CPPFLAGS=-I/usr/local/include' 'LDFLAGS=-arch x86_64 -L/usr/local/lib'  --disable-deprecated  --with-quantum-depth=16  --with-jemalloc=no  --with-umem=no  --with-autotrace=no  --with-dps=no  --with-fftw=no  --with-flif=no  --with-fpx=no  --with-fontconfig=no  --with-freetype=no  --with-gslib=no  --with-fontpath=  --with-lcms=no  --with-pango=no  --with-rsvg=no  --with-uhdr=no  --with-wmf=no  --with-perl=no "/>
+  <configure name="DOCUMENTATION_PATH" value="/Users/dariodumlijan/projects/gif-compiler/scripts/magick/share/doc/ImageMagick-7"/>
+  <configure name="EXEC-PREFIX" value="/Users/dariodumlijan/projects/gif-compiler/scripts/magick"/>
+  <configure name="EXECUTABLE_PATH" value="/Users/dariodumlijan/projects/gif-compiler/scripts/magick/bin"/>
+  <configure name="FEATURES" value="Channel-masks(32-bit) Cipher DPC HDRI"/>
+  <configure name="FILTER_PATH" value="/Users/dariodumlijan/projects/gif-compiler/scripts/magick/lib/ImageMagick-7.1.1/modules-Q16HDRI/filters"/>
+  <configure name="GIT_REVISION" value="bb454aeb6:20250526" />
+  <configure name="HOST" value="x86_64-apple-darwin24.5.0"/>
+  <configure name="INCLUDE_PATH" value="/Users/dariodumlijan/projects/gif-compiler/scripts/magick/include/ImageMagick-7"/>
+  <configure name="LDFLAGS" value="-L/Users/dariodumlijan/projects/gif-compiler/scripts/magick/lib -arch x86_64 -L/usr/local/lib"/>
+  <configure name="LIBRARY_ABSOLUTE_PATH" value="/Users/dariodumlijan/projects/gif-compiler/scripts/magick/lib/ImageMagick-7.1.1"/>
+  <configure name="LIBS" value="    -L/usr/local/opt/libtiff/lib -ltiff   -L/usr/local/opt/jpeg-turbo/lib -ljpeg -L/usr/local/opt/jpeg-xl/lib -ljxl -ljxl_threads  -llqr-1 -L/usr/local/Cellar/glib/2.84.3/lib -lglib-2.0 -L/usr/local/opt/gettext/lib -lintl -L/usr/local/opt/libpng/lib -lpng16       -L/usr/local/opt/libheif/lib -lheif -L/usr/local/opt/webp/lib -lwebpmux -lwebpdemux -L/usr/local/opt/webp/lib -lwebp       -L/usr/local/Cellar/xz/5.8.1/lib -llzma -lbz2  -L/usr/local/Cellar/openjpeg/2.5.3/lib -lopenjp2  -L/usr/local/Cellar/libraw/0.21.4/lib -lraw_r -lstdc++ -L/usr/local/opt/little-cms2/lib -llcms2  -lxml2  -lz -L/usr/local/Cellar/libzip/1.11.4/lib -lzip    -lm    -lpthread    "/>
+  <configure name="LIB_VERSION_NUMBER" value="7,1,1,48"/>
+  <configure name="LIB_VERSION" value="0x711"/>
+  <configure name="NAME" value="ImageMagick"/>
+  <configure name="PCFLAGS" value="-DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_CHANNEL_MASK_DEPTH=32"/>
+  <configure name="PREFIX" value="/Users/dariodumlijan/projects/gif-compiler/scripts/magick"/>
+  <configure name="QuantumDepth" value="16"/>
+  <configure name="RELEASE_DATE" value="2025-05-26"/>
+  <configure name="SECURITY_POLICY" value="open"/>
+  <configure name="SHAREARCH_PATH" value="/Users/dariodumlijan/projects/gif-compiler/scripts/magick/lib/ImageMagick-7.1.1/config-Q16HDRI"/>
+  <configure name="SHARE_PATH" value="/Users/dariodumlijan/projects/gif-compiler/scripts/magick/share/ImageMagick-7"/>
+  <configure name="TARGET_CPU" value="x86_64"/>
+  <configure name="TARGET_OS" value="darwin24.5.0"/>
+  <configure name="TARGET_VENDOR" value="apple"/>
+  <configure name="VERSION" value="7.1.1"/>
+  <configure name="WEBSITE" value="https://imagemagick.org"/>
+</configuremap>

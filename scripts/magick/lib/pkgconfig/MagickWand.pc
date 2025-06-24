@@ -1,0 +1,15 @@
+prefix=/Users/dariodumlijan/projects/gif-compiler/scripts/magick
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/ImageMagick-7
+includearchdir=/Users/dariodumlijan/projects/gif-compiler/scripts/magick/include/ImageMagick-7
+libname=MagickWand-7.Q16HDRI
+ 
+Name: MagickWand
+Description: MagickWand - C API for ImageMagick (ABI Q16HDRI)
+URL: https://github.com/ImageMagick
+Version: 7.1.1
+Requires: MagickCore-7.Q16HDRI
+Cflags: -I${includearchdir} -I${includedir} -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_CHANNEL_MASK_DEPTH=32
+Libs: -L${libdir} -l${libname}
+Libs.private: -L${libdir} -l${libname}     -L/usr/local/opt/libtiff/lib -ltiff   -L/usr/local/opt/jpeg-turbo/lib -ljpeg -L/usr/local/opt/jpeg-xl/lib -ljxl -ljxl_threads  -llqr-1 -L/usr/local/Cellar/glib/2.84.3/lib -lglib-2.0 -L/usr/local/opt/gettext/lib -lintl -L/usr/local/opt/libpng/lib -lpng16       -L/usr/local/opt/libheif/lib -lheif -L/usr/local/opt/webp/lib -lwebpmux -lwebpdemux -L/usr/local/opt/webp/lib -lwebp       -L/usr/local/Cellar/xz/5.8.1/lib -llzma -lbz2  -L/usr/local/Cellar/openjpeg/2.5.3/lib -lopenjp2  -L/usr/local/Cellar/libraw/0.21.4/lib -lraw_r -lstdc++ -L/usr/local/opt/little-cms2/lib -llcms2  -lxml2  -lz -L/usr/local/Cellar/libzip/1.11.4/lib -lzip    -lm    -lpthread     -lm
