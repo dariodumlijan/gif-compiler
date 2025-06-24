@@ -1,6 +1,15 @@
-# Gif Compiler
+# <img src="./build/icon.png" alt="icon" height="30" width="30" style="margin-bottom: -5px" /> Gif Compiler
 
-### Suported direcotry structure
+A simple Electron + React + Magick++ app to speedup creation of GIFs
+- This was for the most part created as a favour for a friend to speed up their day to day workflow in a design agency
+
+## Examples
+
+Check out example results at: [./examples/results](https://github.com/dariodumlijan/gif-compiler/tree/main/examples/results)
+
+![featured](.github/docs/featured.png)
+
+## Directory structure
 ```sh
 # -> Input folder
 │
@@ -31,29 +40,6 @@
             └── 2.jpg
 ```
 
-## Project Setup
+## Project setup
 
-### Install
-
-```bash
-$ yarn
-```
-
-### Development
-
-```bash
-$ yarn dev
-```
-
-### Build
-
-```bash
-# For windows
-$ yarn build:win
-
-# For macOS
-$ yarn build:mac
-
-# For Linux
-$ yarn build:linux
-```
+No ENV variables required, just install node deps and run!
