@@ -33,5 +33,5 @@ yarn-error.log*
 # python
 */__pycache__/
 
-# magick lib
-/scripts/magick/share/doc
+# magick build
+/scripts/magick/share
