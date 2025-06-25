@@ -1,7 +1,7 @@
 # <img src="./build/icon.png" alt="icon" height="30" width="30" style="margin-bottom: -5px" /> Gif Compiler
 
-A simple Electron + React + Magick++ app to speedup creation of GIFs
-- This was for the most part created as a favour for a friend to speed up their day to day workflow in a design agency
+A simple Electron + React + Magick++ app to speed up creation of GIFs
+> This was, for the most part, created as a favour for a friend to speed up their day-to-day workflow in a design agency
 
 ## Examples
 
@@ -42,6 +42,8 @@ Check out example results at: [./examples/results](./examples/results)
             └── 2.jpg
 ```
 
-## Project setup
+## Development
 
 No ENV variables required, just install node deps and run!
+
+For working with the C++ code see [./scripts/README.md](./scripts/README.md)
