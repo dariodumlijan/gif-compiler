@@ -5,7 +5,9 @@ A simple Electron + React + Magick++ app to speedup creation of GIFs
 
 ## Examples
 
-Check out example results at: [./examples/results](https://github.com/dariodumlijan/gif-compiler/tree/main/examples/results)
+You can download the examples folder to try locally: [examples.zip](./examples/examples.zip)
+
+Check out example results at: [./examples/results](./examples/results)
 
 ![featured](.github/docs/featured.png)
 
