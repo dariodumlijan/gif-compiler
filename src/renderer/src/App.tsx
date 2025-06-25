@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { secondsToMilliseconds } from 'date-fns'
 import { isEmpty, some } from 'lodash'
@@ -20,7 +20,7 @@ function App(): React.JSX.Element {
     quantize: '128'
   })
   const [message, setMessage] = useState<string | null>(null)
-  const isDisabled = some([form.inputPath, form.outputPath, form.filename, form.interval], isEmpty)
+  const ctaWrapper = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!message) return
@@ -45,6 +45,8 @@ function App(): React.JSX.Element {
   }
 
   const handleSubmit = (): void => {
+    ctaWrapper.current?.setAttribute('data-state', 'processing')
+
     const trueInterval = Math.abs(Number(form.interval))
     const trueQuantize = Math.abs(Number(form.quantize))
     const finalQuantize = trueQuantize > 256 ? 256 : trueQuantize
@@ -66,7 +68,12 @@ function App(): React.JSX.Element {
       .then((res: string) => {
         setMessage(res)
       })
+      .finally(() => {
+        ctaWrapper.current?.setAttribute('data-state', 'idle')
+      })
   }
+
+  const isDisabled = some([form.inputPath, form.outputPath, form.filename, form.interval], isEmpty)
 
   return (
     <div className="App">
@@ -155,9 +162,14 @@ function App(): React.JSX.Element {
 
           <hr />
 
-          <button className="start-button" onClick={handleSubmit} disabled={isDisabled}>
-            {text.start}
-          </button>
+          <div ref={ctaWrapper} className="cta-wrapper" data-state="idle">
+            <button className="start" onClick={handleSubmit} disabled={isDisabled}>
+              {text.start}
+            </button>
+            <button className="processing">
+              <div className="loader" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
